@@ -28,7 +28,7 @@
 	
 	self.url = [NSURL URLWithString:urlString];
 	if (!self.url || ![self.url scheme]) {
-		self.url = [NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:urlString]];
+		self.url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:[urlString stringByDeletingPathExtension] ofType:[urlString pathExtension]]];
 	}
 	return self;
 }
@@ -59,8 +59,6 @@
 	
 	// intercept mailto URL and send it to an in-app Mail compose view instead
 	if ([[newURL scheme] isEqualToString:@"mailto"]) {
-		MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
-		mailViewController.mailComposeDelegate = self;
 
 		NSArray *rawURLparts = [[newURL resourceSpecifier] componentsSeparatedByString:@"?"];
 		if (rawURLparts.count > 2) {
@@ -68,6 +66,9 @@
 			return NO; // invalid URL
 		}
 		
+		MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+		mailViewController.mailComposeDelegate = self;
+
 		NSMutableArray *toRecipients = [NSMutableArray array];
 		NSString *defaultRecipient = [rawURLparts objectAtIndex:0];
 		if (defaultRecipient.length) {

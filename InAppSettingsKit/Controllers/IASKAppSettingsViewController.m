@@ -135,7 +135,6 @@ CGRect IASKCGRectSwap(CGRect rect);
     }
 	
 	self.navigationItem.rightBarButtonItem = nil;
-	self.navigationController.delegate = nil;
     self.navigationController.delegate = self;
     if (_showDoneButton) {
         UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
@@ -625,6 +624,7 @@ CGRect IASKCGRectSwap(CGRect rect);
             [newItemDict addEntriesFromDictionary: [_viewList objectAtIndex:kIASKSpecifierChildViewControllerIndex]];	// copy the title and explain strings
             
             targetViewController = [[[self class] alloc] initWithNibName:@"IASKAppSettingsView" bundle:nil];
+			targetViewController.showDoneButton = NO;
 			targetViewController.delegate = self.delegate;
 			
             // add the new view controller to the dictionary and then to the 'viewList' array
