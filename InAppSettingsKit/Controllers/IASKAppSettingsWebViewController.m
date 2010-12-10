@@ -62,7 +62,6 @@
 
 		NSArray *rawURLparts = [[newURL resourceSpecifier] componentsSeparatedByString:@"?"];
 		if (rawURLparts.count > 2) {
-            [mailViewController release];
 			return NO; // invalid URL
 		}
 		
